@@ -1,13 +1,16 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import LandingPage from "~/pages/landing";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Projects Keeper" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Devfolio CMS" },
+    {
+      name: "description",
+      content: "A central place for your portfolio contents",
+    },
   ];
 }
 
 export default function Home() {
-  return <Welcome />;
+  return <LandingPage />;
 }
