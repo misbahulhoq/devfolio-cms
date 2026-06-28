@@ -1,5 +1,5 @@
 {
-  "name": "project-creator-dashboard",
+  "name": "@devfolio-cms/client",
   "private": true,
   "type": "module",
   "scripts": {
