@@ -23,7 +23,7 @@ const HeroSection = () => {
         </div>
 
         {/* Right: Live Example */}
-        <div className="rounded-lg border border-border bg-card p-6">
+        <div className="rounded-lg border border-border bg-card p-6 overflow-hidden">
           <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             API Response
           </p>

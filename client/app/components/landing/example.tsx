@@ -1,5 +1,3 @@
-import React from "react";
-
 const ExampleSection = () => {
   return (
     <section className="border-t border-border py-20">
@@ -31,7 +29,7 @@ const ExampleSection = () => {
             </div>
           </div>
 
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 overflow-hidden">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               Your API Call
             </p>
