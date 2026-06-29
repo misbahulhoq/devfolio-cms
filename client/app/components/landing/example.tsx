@@ -4,6 +4,7 @@ const ExampleSection = () => {
       <h2 className="mb-8 text-3xl font-bold text-foreground">
         Example: Real project
       </h2>
+
       <div className="rounded-lg border border-border bg-card p-8">
         <div className="grid gap-8 md:grid-cols-3">
           <div>
