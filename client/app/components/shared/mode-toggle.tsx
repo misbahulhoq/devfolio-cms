@@ -17,7 +17,7 @@ export function ModeToggle() {
   };
 
   return (
-    <Button variant="outline" size="icon" onClick={toggleTheme}>
+    <Button variant="outline" size="icon" onClick={toggleTheme} title={theme}>
       {theme === "system" ? (
         <Monitor className="h-[1.2rem] w-[1.2rem]" />
       ) : (
