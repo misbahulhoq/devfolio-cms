@@ -1,4 +1,6 @@
 import { ArrowRight } from "lucide-react";
+import { Button } from "../ui/button";
+import { Link } from "react-router";
 
 const HeroSection = () => {
   return (
@@ -13,9 +15,11 @@ const HeroSection = () => {
             Write once, deploy everywhere. Store your projects, skills, and
             experience in DevFolio CMS. Fetch it via API—no auth, no hassle.
           </p>
-          <button className="mt-8 inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 font-medium text-primary-foreground transition-opacity hover:opacity-90">
-            Get Started <ArrowRight className="h-4 w-4" />
-          </button>
+          <Button asChild className="mt-8" size={"lg"}>
+            <Link to="/signup">
+              Get Started <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
         </div>
 
         {/* Right: Live Example */}
