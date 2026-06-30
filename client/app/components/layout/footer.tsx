@@ -15,8 +15,17 @@ const Footer = () => {
             <p className="text-xs text-muted-foreground">
               © {new Date().getFullYear()} DevFolio. Built for developers.
             </p>
-            <a href="/privacy" className="text-xs text-muted-foreground hover:underline">
+            <a
+              href="/privacy"
+              className="text-xs text-muted-foreground hover:underline"
+            >
               Privacy Policy
+            </a>
+            <a
+              href="/terms-of-service"
+              className="text-xs text-muted-foreground hover:underline"
+            >
+              Terms of Service
             </a>
           </div>
         </div>
