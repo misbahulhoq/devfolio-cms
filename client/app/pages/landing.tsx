@@ -1,7 +1,7 @@
-import CTASection from "~/components/landing/cta";
-import ExampleSection from "~/components/landing/example";
-import HeroSection from "~/components/landing/hero";
-import HowItWorksSection from "~/components/landing/how-it-works";
+import CTASection from "@/components/landing/cta";
+import ExampleSection from "@/components/landing/example";
+import HeroSection from "@/components/landing/hero";
+import HowItWorksSection from "@/components/landing/how-it-works";
 import IncludedSection from "~/components/landing/included";
 
 export default function LandingPage() {
