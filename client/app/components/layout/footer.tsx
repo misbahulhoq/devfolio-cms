@@ -11,9 +11,14 @@ const Footer = () => {
               Portfolio backend for developers.
             </p>
           </div>
-          <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} DevFolio. Built for developers.
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-xs text-muted-foreground">
+              © {new Date().getFullYear()} DevFolio. Built for developers.
+            </p>
+            <a href="/privacy" className="text-xs text-muted-foreground hover:underline">
+              Privacy Policy
+            </a>
+          </div>
         </div>
       </div>
     </footer>
