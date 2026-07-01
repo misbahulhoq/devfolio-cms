@@ -2,7 +2,8 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { Database, Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
+import Logo from "../shared/logo";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -57,8 +58,8 @@ export default function RegistrationForm() {
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary/60" />
 
         <CardHeader className="text-center pb-6">
-          <div className="mx-auto inline-flex items-center justify-center w-12 h-12 rounded-lg bg-secondary/50 border border-border mb-4 shadow-sm">
-            <Database className="w-6 h-6 text-foreground" />
+          <div className="flex justify-center gap-2 mb-1">
+            <Logo />
           </div>
           <CardTitle className="text-2xl font-bold tracking-tight">
             Create your account
