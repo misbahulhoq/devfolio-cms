@@ -13,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Link } from "react-router";
 
 // 1. Define the validation schema
 const registrationSchema = z.object({
@@ -153,12 +154,12 @@ export default function RegistrationForm() {
               </Button>
               <div className="text-center text-sm text-muted-foreground">
                 Already have an account?{" "}
-                <a
-                  href="#"
+                <Link
+                  to="/signin"
                   className="text-foreground font-semibold hover:underline decoration-primary decoration-2 underline-offset-4 transition-all"
                 >
                   Sign in
-                </a>
+                </Link>
               </div>
             </div>
           </form>
@@ -167,19 +168,19 @@ export default function RegistrationForm() {
         <CardFooter className="justify-center pt-2 pb-6">
           <p className="text-center text-xs text-muted-foreground/70 max-w-xs">
             By registering, you agree to our{" "}
-            <a
-              href="#"
+            <Link
+              to="/terms-of-service"
               className="hover:text-foreground transition-colors underline"
             >
               Terms of Service
-            </a>{" "}
+            </Link>{" "}
             and{" "}
-            <a
-              href="#"
+            <Link
+              to="/privacy"
               className="hover:text-foreground transition-colors underline"
             >
               Privacy Policy
-            </a>
+            </Link>
             .
           </p>
         </CardFooter>
