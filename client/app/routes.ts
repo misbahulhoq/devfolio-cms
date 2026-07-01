@@ -7,4 +7,5 @@ export default [
   route("forgot-password", "routes/forgot-password.tsx"),
   route("privacy", "routes/privacy.tsx"),
   route("terms-of-service", "routes/terms.tsx"),
+  route("dashboard", "routes/dashboard.tsx"),
 ] satisfies RouteConfig;
