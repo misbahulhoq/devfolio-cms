@@ -116,12 +116,12 @@ export default function LoginForm() {
                   >
                     Password
                   </label>
-                  <a
-                    href="#"
+                  <Link
+                    to="/forgot-password"
                     className="font-mono text-xs text-primary hover:underline transition-colors"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
