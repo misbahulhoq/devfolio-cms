@@ -33,7 +33,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
       {/* Overlay for mobile */}
       <div
         className={cn(
-          "fixed inset-0 bg-black/50 z-30 lg:hidden transition-opacity duration-300",
+          "fixed inset-y-0 right-0 left-[min(280px,calc(100vw-2rem))] z-40 bg-background/20 backdrop-blur-[1px] transition-opacity duration-300 lg:hidden",
           {
             "opacity-100 pointer-events-auto": isOpen,
             "opacity-0 pointer-events-none": !isOpen,
@@ -44,7 +44,7 @@ export default function Sidebar({ isOpen, onToggle }: SidebarProps) {
 
       <nav
         className={cn(
-          "bg-muted/20 fixed left-0 top-0 z-40 flex h-dvh w-[min(280px,calc(100vw-2rem))] flex-col overflow-y-auto border-r border-border px-4 py-5 transition-transform duration-300 sm:py-6 lg:w-[280px]",
+          "bg-background fixed left-0 top-0 z-50 flex h-dvh w-[min(280px,calc(100vw-2rem))] flex-col overflow-y-auto border-r border-border px-4 py-5 transition-transform duration-300 sm:py-6 lg:w-[280px]",
           "lg:translate-x-0",
           {
             "translate-x-0": isOpen,
