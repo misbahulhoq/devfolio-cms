@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const ProjectHome = () => {
   return (
-    <main className="ml-[280px] mt-16 p-8 min-h-[calc(100vh-64px)] relative z-10">
+    <main className="">
       {/* Page Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold tracking-tight mb-2">Projects</h1>

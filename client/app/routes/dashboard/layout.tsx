@@ -1,8 +1,8 @@
-import { type PropsWithChildren } from "react";
-import Sidebar from "./sidebar";
-import TopAppBar from "./top-app-bar";
+import { Outlet } from "react-router";
+import Sidebar from "@/components/dashboard/sidebar";
+import TopAppBar from "@/components/dashboard/top-app-bar";
 
-export default function DashboardLayout({ children }: PropsWithChildren) {
+const DashboardLayout = () => {
   return (
     <div className="bg-background text-foreground min-h-screen relative overflow-hidden">
       {/* Data Loom Background */}
@@ -17,8 +17,10 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
       <Sidebar />
       <TopAppBar />
       <main className="ml-[280px] mt-16 p-8 min-h-[calc(100vh-64px)] relative z-10">
-        {children}
+        <Outlet />
       </main>
     </div>
   );
-}
+};
+
+export default DashboardLayout;
