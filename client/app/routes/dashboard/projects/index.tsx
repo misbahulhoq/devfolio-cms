@@ -3,21 +3,23 @@ import { Button } from "@/components/ui/button";
 
 const ProjectHome = () => {
   return (
-    <main className="">
+    <main className="w-full min-w-0">
       {/* Page Header */}
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold tracking-tight mb-2">Projects</h1>
-        <p className="text-lg text-muted-foreground">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="mb-2 text-3xl font-bold tracking-tight sm:text-4xl">
+          Projects
+        </h1>
+        <p className="max-w-2xl text-base text-muted-foreground sm:text-lg">
           Manage your portfolio projects and case studies.
         </p>
       </div>
 
       {/* Empty State Container */}
-      <div className="w-full max-w-4xl mx-auto mt-24 flex flex-col items-center justify-center text-center p-12 border border-border rounded-lg bg-card shadow-sm">
+      <div className="mx-auto mt-10 flex w-full max-w-4xl flex-col items-center justify-center rounded-lg border border-border bg-card p-6 text-center shadow-sm sm:mt-16 sm:p-10 lg:mt-24 lg:p-12">
         {/* Technical Graphic Placeholder */}
-        <div className="w-32 h-32 mb-6 relative opacity-70">
+        <div className="relative mb-6 size-24 opacity-70 sm:size-32">
           <svg
-            className="w-full h-full"
+            className="size-full"
             fill="none"
             viewBox="0 0 100 100"
             xmlns="http://www.w3.org/2000/svg"
@@ -50,19 +52,21 @@ const ProjectHome = () => {
           </svg>
         </div>
 
-        <h2 className="text-2xl font-semibold mb-3">No projects found</h2>
-        <p className="text-base text-muted-foreground mb-8 max-w-md">
+        <h2 className="mb-3 text-xl font-semibold sm:text-2xl">
+          No projects found
+        </h2>
+        <p className="mb-8 max-w-md text-sm text-muted-foreground sm:text-base">
           Your workspace is currently empty. Start by creating a new project to
           showcase your work or import from an existing repository.
         </p>
 
-        <div className="flex gap-4">
-          <Button className="gap-2 font-medium">
-            <Plus className="w-4 h-4" />
+        <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4">
+          <Button className="font-medium">
+            <Plus data-icon="inline-start" />
             Create Project
           </Button>
-          <Button variant="outline" className="gap-2 font-medium">
-            <Download className="w-4 h-4" />
+          <Button variant="outline" className="font-medium">
+            <Download data-icon="inline-start" />
             Import Data
           </Button>
         </div>
