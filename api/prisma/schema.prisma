@@ -22,11 +22,12 @@ model User {
   updatedAt    DateTime  @updatedAt @map("updated_at")
   deletedAt    DateTime? @map("deleted_at")
 
-  projects        Project[]
-  skills          UserSkill[]
-  experience      Experience[]
-  refreshTokens   RefreshToken[]
-  passwordResets  PasswordReset[]
+  projects       Project[]
+  caseStudies    CaseStudy[]
+  skills         UserSkill[]
+  experience     Experience[]
+  refreshTokens  RefreshToken[]
+  passwordResets PasswordReset[]
 
   @@map("users")
 }
@@ -80,6 +81,7 @@ model Project {
   techStack        ProjectTechStack[]
   images           ProjectImage[]
   links            ProjectLink[]
+  caseStudy        CaseStudy?
 
   @@unique([userId, slug])
   @@index([userId, status, deletedAt])
@@ -98,6 +100,40 @@ enum ProjectType {
   api
   library
   other
+}
+
+model CaseStudy {
+  id            String          @id @default(uuid())
+  userId        String          @map("user_id")
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId     String?         @unique @map("project_id")
+  project       Project?        @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  title         String
+  slug          String
+  excerpt       String?
+  coverImageUrl String?         @map("cover_image_url")
+  coverImageKey String?         @map("cover_image_key")
+  overview      String?
+  problem       String?
+  approach      String?
+  solution      String?
+  results       String?
+  status        CaseStudyStatus @default(draft)
+  isFeatured    Boolean         @default(false) @map("is_featured")
+  displayOrder  Int             @default(0) @map("display_order")
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
+  deletedAt     DateTime?       @map("deleted_at")
+
+  @@unique([userId, slug])
+  @@index([userId, status, deletedAt])
+  @@map("case_studies")
+}
+
+enum CaseStudyStatus {
+  draft
+  published
+  archived
 }
 
 model TechStack {
@@ -140,14 +176,14 @@ model ProjectTechStack {
 }
 
 model UserSkill {
-  id           String          @id @default(uuid())
-  userId       String          @map("user_id")
-  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  techStackId  String          @map("tech_stack_id")
-  techStack    TechStack       @relation(fields: [techStackId], references: [id], onDelete: Cascade)
+  id           String           @id @default(uuid())
+  userId       String           @map("user_id")
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  techStackId  String           @map("tech_stack_id")
+  techStack    TechStack        @relation(fields: [techStackId], references: [id], onDelete: Cascade)
   proficiency  ProficiencyLevel
-  displayOrder Int             @default(0) @map("display_order")
-  createdAt    DateTime        @default(now()) @map("created_at")
+  displayOrder Int              @default(0) @map("display_order")
+  createdAt    DateTime         @default(now()) @map("created_at")
 
   @@unique([userId, techStackId])
   @@map("user_skills")
@@ -182,6 +218,7 @@ model ProjectImage {
   projectId    String   @map("project_id")
   project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
   url          String
+  key          String
   altText      String?  @map("alt_text")
   isCover      Boolean  @default(false) @map("is_cover")
   displayOrder Int      @default(0) @map("display_order")
