@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -10,17 +11,17 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  email        String    @unique
-  passwordHash String    @map("password_hash")
-  username     String    @unique
-  fullName     String?   @map("full_name")
-  avatarUrl    String?   @map("avatar_url")
+  id           String  @id @default(uuid())
+  email        String  @unique
+  passwordHash String  @map("password_hash")
+  username     String  @unique
+  fullName     String? @map("full_name")
+  avatarUrl    String? @map("avatar_url")
   bio          String?
 
-  createdAt    DateTime  @default(now()) @map("created_at")
-  updatedAt    DateTime  @updatedAt @map("updated_at")
-  deletedAt    DateTime? @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
 
   projects       Project[]
   caseStudies    CaseStudy[]
@@ -57,9 +58,9 @@ model PasswordReset {
 }
 
 model Project {
-  id               String        @id @default(uuid())
-  userId           String        @map("user_id")
-  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(uuid())
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   title            String
   slug             String
@@ -74,14 +75,14 @@ model Project {
   startedAt        DateTime?     @map("started_at")
   completedAt      DateTime?     @map("completed_at")
 
-  createdAt        DateTime      @default(now()) @map("created_at")
-  updatedAt        DateTime      @updatedAt @map("updated_at")
-  deletedAt        DateTime?     @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
 
-  techStack        ProjectTechStack[]
-  images           ProjectImage[]
-  links            ProjectLink[]
-  caseStudy        CaseStudy?
+  techStack ProjectTechStack[]
+  images    ProjectImage[]
+  links     ProjectLink[]
+  caseStudy CaseStudy?
 
   @@unique([userId, slug])
   @@index([userId, status, deletedAt])
