@@ -6,6 +6,7 @@ import { Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { Link } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { Label } from "@/components/ui/label";
 
 import Logo from "@/components/shared/logo";
 import { Input } from "@/components/ui/input";
@@ -35,9 +36,9 @@ const registrationSchema = z.object({
 type RegistrationFormValues = z.infer<typeof registrationSchema>;
 
 export default function RegistrationForm() {
-  const { mutate: register, isPending } = useMutation({
+  const { mutateAsync: register, isPending } = useMutation({
     mutationFn: async (data: RegistrationFormValues) => {
-      apiClient.post("/auth/register", data);
+      await apiClient.post("/auth/register", data);
     },
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -56,7 +57,7 @@ export default function RegistrationForm() {
   // 3. Handle submission
   async function onSubmit(data: RegistrationFormValues) {
     try {
-      register(data);
+      await register(data);
       toast.success("Registration successful! Please check your email.");
       form.reset();
     } catch (error) {
@@ -86,15 +87,16 @@ export default function RegistrationForm() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             {/* Username Field */}
             <div className="space-y-2">
-              <label
+              <Label
                 htmlFor="username"
-                className="relative ml-3 font-mono font-medium text-foreground before:absolute before:-left-3 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-1 before:rounded-full before:bg-primary after:absolute after:-left-2.5 after:top-1/2 after:w-2.5 after:h-px after:bg-border after:-z-10"
+                className="font-mono font-medium text-foreground mb-0 flex items-center"
               >
+                <span className="w-1 h-1 rounded-full bg-primary mb-1"></span>
                 Username
-              </label>
+              </Label>
               <div className="flex h-10 w-full items-center rounded-md border border-input bg-secondary/20 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all duration-200 overflow-hidden">
-                <span className="flex items-center h-full px-3 text-sm text-muted-foreground border-r border-input bg-secondary/40 select-none">
-                  devfoliocms.com/u/
+                <span className=" items-center h-full px-3 text-sm text-muted-foreground border-r border-input bg-secondary/40 select-none hidden sm:flex">
+                  devfolio.antisolbd.com/u/
                 </span>
                 <Input
                   id="username"
@@ -112,12 +114,13 @@ export default function RegistrationForm() {
 
             {/* Email Field */}
             <div className="space-y-2">
-              <label
+              <Label
                 htmlFor="email"
-                className="relative ml-3 font-mono font-medium text-foreground before:absolute before:-left-3 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-1 before:rounded-full before:bg-primary after:absolute after:-left-2.5 after:top-1/2 after:w-2.5 after:h-px after:bg-border after:-z-10"
+                className="font-mono font-medium text-foreground mb-1 flex items-center"
               >
+                <span className="w-1 h-1 rounded-full bg-primary mb-1"></span>
                 Email Address
-              </label>
+              </Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                 <Input
@@ -137,12 +140,13 @@ export default function RegistrationForm() {
 
             {/* Password Field */}
             <div className="space-y-2">
-              <label
+              <Label
                 htmlFor="password"
-                className="relative ml-3 font-mono font-medium text-foreground before:absolute before:-left-3 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-1 before:rounded-full before:bg-primary after:absolute after:-left-2.5 after:top-1/2 after:w-2.5 after:h-px after:bg-border after:-z-10"
+                className="font-mono font-medium text-foreground mb-1 flex items-center"
               >
+                <span className="w-1 h-1 rounded-full bg-primary mb-1"></span>
                 Password
-              </label>
+              </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
                 <Input
