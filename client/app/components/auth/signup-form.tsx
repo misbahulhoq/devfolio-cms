@@ -1,10 +1,13 @@
+import { useState } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
 import { Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
-import Logo from "../shared/logo";
+import { Link } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
+import Logo from "@/components/shared/logo";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Link } from "react-router";
+import { apiClient } from "@/lib/api-client";
 
 // 1. Define the validation schema
 const registrationSchema = z.object({
@@ -32,6 +35,11 @@ const registrationSchema = z.object({
 type RegistrationFormValues = z.infer<typeof registrationSchema>;
 
 export default function RegistrationForm() {
+  const { mutate: register, isPending } = useMutation({
+    mutationFn: async (data: RegistrationFormValues) => {
+      apiClient.post("/auth/register", data);
+    },
+  });
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   // 2. Initialize the form
@@ -46,9 +54,14 @@ export default function RegistrationForm() {
   const { errors } = form.formState;
 
   // 3. Handle submission
-  function onSubmit(data: RegistrationFormValues) {
-    console.log("Form submitted:", data);
-    // Add your API routing or context logic here
+  async function onSubmit(data: RegistrationFormValues) {
+    try {
+      register(data);
+      toast.success("Registration successful! Please check your email.");
+      form.reset();
+    } catch (error) {
+      toast.error("Registration failed. Please try again.");
+    }
   }
 
   return (
@@ -160,6 +173,7 @@ export default function RegistrationForm() {
             {/* Form Actions */}
             <div className="pt-2 flex flex-col gap-4">
               <Button
+                disabled={isPending}
                 type="submit"
                 className="w-full font-mono font-bold active:scale-[0.98] transition-all flex items-center justify-center gap-2"
               >

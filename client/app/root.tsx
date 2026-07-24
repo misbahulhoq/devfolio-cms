@@ -6,10 +6,12 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/sonner";
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import Navbar from "./components/layout/navbar";
+import Navbar from "@/components/layout/navbar";
 import Footer from "./components/layout/footer";
 import { ThemeProvider } from "./components/theme-provider";
 
@@ -25,6 +27,8 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
   },
 ];
+
+const queryClient = new QueryClient({});
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -46,11 +50,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <Navbar />
-      <Outlet />
-      <Footer />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+        <Navbar />
+        <Outlet />
+        <Footer />
+        <Toaster />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }
 
