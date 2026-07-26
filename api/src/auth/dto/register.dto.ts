@@ -6,8 +6,9 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { type RegisterDto as IRegisterDto } from '@devfolio-cms/dto';
 
-export class RegisterDto {
+export class RegisterDto implements IRegisterDto {
   @IsEmail()
   @IsNotEmpty()
   @MaxLength(100)

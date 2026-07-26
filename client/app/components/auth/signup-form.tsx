@@ -1,5 +1,4 @@
 import { useState } from "react";
-import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
@@ -7,6 +6,7 @@ import { Link } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Label } from "@/components/ui/label";
+import { registerSchema, type RegisterDto } from "@devfolio-cms/dto";
 
 import Logo from "@/components/shared/logo";
 import { Input } from "@/components/ui/input";
@@ -21,31 +21,17 @@ import {
 } from "@/components/ui/card";
 import { apiClient } from "@/lib/api-client";
 
-// 1. Define the validation schema
-const registrationSchema = z.object({
-  username: z
-    .string()
-    .min(3, { message: "Username must be at least 3 characters." })
-    .max(20, { message: "Username cannot exceed 20 characters." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters." }),
-});
-
-type RegistrationFormValues = z.infer<typeof registrationSchema>;
-
 export default function RegistrationForm() {
   const { mutateAsync: register, isPending } = useMutation({
-    mutationFn: async (data: RegistrationFormValues) => {
+    mutationFn: async (data: RegisterDto) => {
       await apiClient.post("/auth/register", data);
     },
   });
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   // 2. Initialize the form
-  const form = useForm<RegistrationFormValues>({
-    resolver: zodResolver(registrationSchema),
+  const form = useForm<RegisterDto>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       username: "",
       email: "",
@@ -55,7 +41,7 @@ export default function RegistrationForm() {
   const { errors } = form.formState;
 
   // 3. Handle submission
-  async function onSubmit(data: RegistrationFormValues) {
+  async function onSubmit(data: RegisterDto) {
     try {
       await register(data);
       toast.success("Registration successful! Please check your email.");
