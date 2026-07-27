@@ -6,6 +6,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+
 import {
   USERNAME_PATTERN,
   PASSWORD_PATTERN,
@@ -15,16 +16,18 @@ import {
 export class RegisterDto implements IRegisterDto {
   @IsEmail()
   @IsNotEmpty()
-  @MaxLength(100)
+  @MaxLength(100, {
+    message: 'Email cannot exceed 100 characters.',
+  })
   email: string;
 
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
-  @MaxLength(30)
+  @MaxLength(20)
   @Matches(USERNAME_PATTERN, {
     message:
-      'Username must be 3-30 characters, lowercase alphanumeric and hyphens only, cannot start or end with a hyphen, and no consecutive hyphens.',
+      'Username must be 3-20 characters, lowercase alphanumeric and hyphens only, cannot start or end with a hyphen, and no consecutive hyphens.',
   })
   username: string;
 
