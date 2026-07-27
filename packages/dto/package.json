@@ -1,19 +1,28 @@
 {
   "name": "@devfolio-cms/dto",
   "version": "0.0.1",
-  "description": "",
   "author": "Md Mezbah Uddin <extraordinarymisbah@gmail.com>",
   "private": true,
   "license": "UNLICENSED",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.cjs"
+    }
+  },
   "scripts": {
-    "dev": "tsc --watch"
+    "dev": "tsdown --watch ./src/index.ts"
   },
   "dependencies": {
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "tsdown": "^0.22.14",
     "typescript": "^5.7.3"
   }
 }
