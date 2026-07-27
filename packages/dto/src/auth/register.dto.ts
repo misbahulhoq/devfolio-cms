@@ -7,6 +7,7 @@ const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 export const registerSchema = z.object({
   username: z
     .string()
+    .nonempty({ message: "Username is required" })
     .min(3, { message: "Username must be at least 3 characters." })
     .max(20, { message: "Username cannot exceed 20 characters." })
     .regex(USERNAME_PATTERN, {
@@ -15,11 +16,12 @@ export const registerSchema = z.object({
     }),
   email: z
     .string()
+    .nonempty({ message: "Email is required" })
     .email({ message: "Please enter a valid email address." })
     .max(100, { message: "Email cannot exceed 100 characters." }),
   password: z
     .string()
-
+    .nonempty({ message: "Password is required" })
     .min(8, { message: "Password must be at least 8 characters." })
     .max(72, { message: "Password cannot exceed 72 characters." })
     .regex(PASSWORD_PATTERN, {
