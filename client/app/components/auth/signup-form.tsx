@@ -29,7 +29,7 @@ export default function RegistrationForm() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
-  // 2. Initialize the form
+  // Initialize the form
   const form = useForm<RegisterDto>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
