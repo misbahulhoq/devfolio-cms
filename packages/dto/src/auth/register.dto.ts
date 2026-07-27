@@ -1,8 +1,8 @@
 // packages/dto/src/auth/register.dto.ts
 import { z } from "zod/v3"; // or 'zod/v4'
 
-const USERNAME_PATTERN = /^[a-z0-9][a-z0-9-]{1,28}[a-z0-9]$/;
-const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+export const USERNAME_PATTERN = /^[a-z0-9][a-z0-9-]{1,28}[a-z0-9]$/;
+export const PASSWORD_PATTERN = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
 export const registerSchema = z.object({
   username: z
@@ -20,4 +20,4 @@ export const registerSchema = z.object({
 
 export type RegisterDto = z.infer<typeof registerSchema>;
 
-export { USERNAME_PATTERN, PASSWORD_PATTERN };
+// export { USERNAME_PATTERN, PASSWORD_PATTERN };

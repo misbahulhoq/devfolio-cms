@@ -6,7 +6,11 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { type RegisterDto as IRegisterDto } from '@devfolio-cms/dto';
+import {
+  USERNAME_PATTERN,
+  PASSWORD_PATTERN,
+  type RegisterDto as IRegisterDto,
+} from '@devfolio-cms/dto';
 
 export class RegisterDto implements IRegisterDto {
   @IsEmail()
@@ -18,7 +22,7 @@ export class RegisterDto implements IRegisterDto {
   @IsNotEmpty()
   @MinLength(3)
   @MaxLength(30)
-  @Matches(/^[a-z0-9][a-z0-9-]{1,28}[a-z0-9]$/, {
+  @Matches(USERNAME_PATTERN, {
     message:
       'Username must be 3-30 characters, lowercase alphanumeric and hyphens only, cannot start or end with a hyphen, and no consecutive hyphens.',
   })
@@ -28,7 +32,7 @@ export class RegisterDto implements IRegisterDto {
   @IsNotEmpty()
   @MinLength(8)
   @MaxLength(72)
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/, {
+  @Matches(PASSWORD_PATTERN, {
     message:
       'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.',
   })
