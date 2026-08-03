@@ -1,1 +1,1 @@
-export * from "./auth/register.types";
+export * from "./auth/register-error.types";
