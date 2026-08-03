@@ -22,9 +22,18 @@ import {
 import { apiClient } from "@/lib/api-client";
 
 export default function RegistrationForm() {
+  const [apiError, setApiError] = useState<string | null>(null);
   const { mutateAsync: register, isPending } = useMutation({
     mutationFn: async (data: RegisterDto) => {
       await apiClient.post("/auth/register", data);
+    },
+
+    onError: (error) => {
+      // @ts-ignore
+      if (error.response) {
+        // @ts-ignore
+        setApiError(error.response.data.message);
+      }
     },
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -57,7 +66,7 @@ export default function RegistrationForm() {
         {/* Subtle top accent */}
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-primary/60" />
 
-        <CardHeader className="text-center pb-6">
+        <CardHeader className="text-center pb-6 relative">
           <div className="flex justify-center gap-2 mb-1">
             <Logo />
           </div>
@@ -67,6 +76,12 @@ export default function RegistrationForm() {
           <CardDescription className="text-sm">
             Precision content management starts here.
           </CardDescription>
+
+          {apiError && (
+            <span className="text-destructive absolute bottom-0 text-center left-1/2 -translate-x-1/2">
+              {apiError}
+            </span>
+          )}
         </CardHeader>
 
         <CardContent>

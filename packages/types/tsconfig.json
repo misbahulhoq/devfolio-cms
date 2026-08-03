@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "declarationMap": true,
+    "isolatedModules": true,
+
+    /* Enabled in case you share NestJS decorator-based DTOs (class-validator) */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+
+    /* Optional: Uncomment if you export shared React UI components */
+    /* "jsx": "react-jsx" */
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
