@@ -3,6 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { RegisterDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
+import { EmailService } from '../email/email.service';
 
 // As per requirements doc section 12.3
 const RESERVED_USERNAMES = [
@@ -31,6 +32,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private emailService: EmailService,
   ) {}
 
   async register(registerDto: RegisterDto) {
@@ -61,6 +63,8 @@ export class AuthService {
       username: username.toLowerCase(),
       passwordHash,
     });
+
+    await this.emailService.sendEmail(email, 'Welcome to DevFolio CMS', ``);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { passwordHash: _, ...result } = user;

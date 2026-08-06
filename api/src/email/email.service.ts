@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { transporter } from '../config/nodemailer';
+import 'dotenv/config';
 
 @Injectable()
 export class EmailService {
