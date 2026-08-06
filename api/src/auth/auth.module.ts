@@ -5,6 +5,7 @@ import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EmailService } from '../email/email.service';
+import { EmailTemplateService } from '../email/email-template.service';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { EmailService } from '../email/email.service';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService, EmailService],
+  providers: [AuthService, EmailService, EmailTemplateService],
   controllers: [AuthController],
 })
 export class AuthModule {}

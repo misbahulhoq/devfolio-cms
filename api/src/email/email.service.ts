@@ -12,6 +12,7 @@ interface SendMailOptions {
 @Injectable()
 export class EmailService {
   private transporter: Transporter;
+
   constructor(private readonly configService: ConfigService) {
     this.transporter = nodemailer.createTransport({
       service: 'gmail',

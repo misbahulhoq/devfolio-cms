@@ -4,6 +4,7 @@ import { UsersService } from '../users/users.service';
 import { RegisterDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import { EmailService } from '../email/email.service';
+import { EmailTemplateService } from '../email/email-template.service';
 
 // As per requirements doc section 12.3
 const RESERVED_USERNAMES = [
@@ -33,6 +34,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private emailService: EmailService,
+    private emailTemplateService: EmailTemplateService,
   ) {}
 
   async register(registerDto: RegisterDto) {
@@ -64,10 +66,18 @@ export class AuthService {
       passwordHash,
     });
 
+    const htmlTemplate =
+      await this.emailTemplateService.renderConfirmationEmail({
+        userName: username,
+        confirmationLink: 'TODO',
+        expiryHours: 24,
+        companyAddress: 'TODO',
+      });
+
     await this.emailService.sendEmail({
       to: email,
       subject: 'Welcome to DevFolio CMS',
-      html: `<p>Hi ${username}!</p>`,
+      html: htmlTemplate,
     });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
