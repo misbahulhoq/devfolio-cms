@@ -49,7 +49,6 @@ export class EmailTemplateService implements OnModuleInit {
       userName: data.userName,
       confirmationLink: data.confirmationLink,
       expiryHours: String(data.expiryHours),
-      companyAddress: data.companyAddress,
       currentYear: String(data.currentYear ?? new Date().getFullYear()),
     };
 

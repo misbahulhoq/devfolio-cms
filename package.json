@@ -3,7 +3,10 @@
   "packageManager": "bun@1.3.12",
   "private": true,
   "scripts": {
-    "dev": "turbo dev"
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "build:client": "turbo -F=@devfolio-cms/client build",
+    "build:api": "turbo -F=@devfolio-cms/api build"
   },
   "workspaces": [
     "api",
