@@ -27,7 +27,6 @@ export default function RegistrationForm() {
     mutationFn: async (data: RegisterDto) => {
       await apiClient.post("/auth/register", data);
     },
-
     onError: (error) => {
       // @ts-ignore
       if (error.response) {
@@ -51,6 +50,7 @@ export default function RegistrationForm() {
 
   // 3. Handle submission
   async function onSubmit(data: RegisterDto) {
+    setApiError(null);
     try {
       await register(data);
       toast.success("Registration successful! Please check your email.");

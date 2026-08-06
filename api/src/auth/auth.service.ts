@@ -64,7 +64,11 @@ export class AuthService {
       passwordHash,
     });
 
-    await this.emailService.sendEmail(email, 'Welcome to DevFolio CMS', ``);
+    await this.emailService.sendEmail({
+      to: email,
+      subject: 'Welcome to DevFolio CMS',
+      html: `<p>Hi ${username}!</p>`,
+    });
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { passwordHash: _, ...result } = user;
