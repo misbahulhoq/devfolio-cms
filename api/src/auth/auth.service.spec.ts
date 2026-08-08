@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/require-await */
 import { ConflictException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { AuthService } from './auth.service';
@@ -54,7 +55,7 @@ describe('AuthService.register', () => {
 
   it('rejects an email that is already registered', async () => {
     const { service, usersService } = createService();
-    usersService.findOne.mockResolvedValueOnce(savedUser);
+    usersService.findOne.mockResolvedValueOnce(savedUser as never);
 
     await expect(service.register(registration)).rejects.toThrow(
       new ConflictException('Email already registered.'),
@@ -70,7 +71,7 @@ describe('AuthService.register', () => {
     const { service, usersService } = createService();
     usersService.findOne
       .mockResolvedValueOnce(null)
-      .mockResolvedValueOnce(savedUser);
+      .mockResolvedValueOnce(savedUser as never);
 
     await expect(service.register(registration)).rejects.toThrow(
       new ConflictException('Username already taken.'),
@@ -92,13 +93,17 @@ describe('AuthService.register', () => {
     const result = await service.register(registration);
 
     expect(usersService.createUser).toHaveBeenCalledTimes(1);
+    // @ts-expect-error (test cases are not properly types, so we are not checking the type here)
     const [createInput] = usersService.createUser.mock.calls[0];
+    console.log(createInput);
     expect(createInput).toMatchObject({
       email: 'jane.doe@example.com',
       username: 'jane-doe',
     });
     expect(
-      await bcrypt.compare(registration.password, createInput.passwordHash),
+      // @ts-expect-error (test cases are not properly types, so we are not checking the type here)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      await bcrypt.compare(registration.password, createInput?.passwordHash),
     ).toBe(true);
     expect(emailTemplateService.renderConfirmationEmail).toHaveBeenCalledWith({
       userName: registration.username,
