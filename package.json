@@ -6,7 +6,9 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "build:client": "turbo -F=@devfolio-cms/client build",
-    "build:api": "turbo -F=@devfolio-cms/api build"
+    "build:api": "turbo -F=@devfolio-cms/api build",
+    "test:api": "turbo -F=@devfolio-cms/api test",
+    "test:client": "turbo -F=@devfolio-cms/client test"
   },
   "workspaces": [
     "api",
