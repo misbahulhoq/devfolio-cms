@@ -6,7 +6,7 @@ export function meta({}: Route.MetaArgs) {
     { title: "Register | Devfolio CMS" },
     {
       name: "description",
-      content: "A central place for your portfolio contents",
+      content: "Register to your Devfolio CMS account",
     },
   ];
 }
