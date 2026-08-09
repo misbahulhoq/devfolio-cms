@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1080.0",
-    "@devfolio-cms/dto": "workspace:*",
+    "@devfolio-cms/dto": "file:../packages/dto",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.1",
