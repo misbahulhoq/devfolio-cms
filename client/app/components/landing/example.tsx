@@ -35,8 +35,7 @@ const ExampleSection = () => {
               Your API Call
             </p>
             <pre className="mt-4 overflow-x-auto rounded bg-muted p-4 font-mono text-xs text-foreground">
-              {`curl https://api.devfolio.app/v1/projects/my-ecommerce \\
-  -H "Authorization: Bearer YOUR_PUBLIC_KEY"
+              {`curl https://api.devfolio-cms.antisolbd.com/v1/projects/my-ecommerce 
 
 {
   "id": "proj_1a2b3c",
