@@ -55,7 +55,7 @@ jobs:
         run: bun install -g vercel
 
       - name: Pull Vercel environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=production --project=${{secrets.VERCEL_PROJECT_ID}} --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Vercel
         run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
