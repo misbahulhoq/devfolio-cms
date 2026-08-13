@@ -39,8 +39,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      # VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      # VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     needs: test
     steps:
       - name: Checkout code
@@ -54,8 +54,8 @@ jobs:
       - name: Install Vercel CLI
         run: bun install -g vercel
 
-      - name: Pull Vercel environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      # - name: Pull Vercel environment
+      #   run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Vercel
         run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
