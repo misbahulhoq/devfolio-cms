@@ -1,0 +1,13 @@
+{
+  "settings": {
+    "createdAt": 1786464785893,
+    "framework": "nestjs",
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": "api",
+    "directoryListing": false,
+    "nodeVersion": "24.x"
+  }
+}
