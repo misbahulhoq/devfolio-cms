@@ -22,7 +22,7 @@ async function bootstrap() {
     origin:
       process.env.NODE_ENV === 'production'
         ? 'https://devfolio-cms.antisolbd.com/'
-        : 'localhost:5173',
+        : 'http://localhost:5173',
     credentials: true,
   });
 

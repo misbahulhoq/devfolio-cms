@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, Lock, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, ArrowRight, Eye, EyeOff, Loader2 } from "lucide-react";
 import { Link } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -48,6 +48,7 @@ export default function RegistrationForm() {
   });
   const { errors } = form.formState;
 
+  console.log(errors);
   // 3. Handle submission
   async function onSubmit(data: RegisterDto) {
     setApiError(null);
@@ -182,9 +183,19 @@ export default function RegistrationForm() {
                 type="submit"
                 className="w-full font-mono font-bold active:scale-[0.98] transition-all flex items-center justify-center gap-2"
               >
-                Create Account
-                <ArrowRight className="w-4 h-4" />
+                {isPending ? (
+                  <>
+                    <Loader2 className="animate-spin h-4 w-4" />
+                    Creating Account
+                  </>
+                ) : (
+                  <>
+                    Create Account
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
               </Button>
+
               <div className="text-center text-sm text-muted-foreground">
                 Already have an account?{" "}
                 <Link

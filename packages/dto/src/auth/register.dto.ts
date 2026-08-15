@@ -26,7 +26,7 @@ export const registerSchema = z.object({
     .max(72, { message: "Password cannot exceed 72 characters." })
     .regex(PASSWORD_PATTERN, {
       message:
-        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.",
+        "Password must contain at least one uppercase letter, one lowercase letter, and one digit.",
     }),
 });
 
