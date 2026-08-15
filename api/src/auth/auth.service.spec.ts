@@ -19,11 +19,10 @@ const savedUser = {
 };
 
 function createService() {
-  const usersService = {
+  const usersRepository = {
     findOne: jest.fn(async () => null),
     createUser: jest.fn(async () => savedUser),
   };
-  const jwtService = {};
   const emailService = {
     sendEmail: jest.fn(async () => undefined),
   };
@@ -32,44 +31,43 @@ function createService() {
   };
 
   const service = new AuthService(
-    usersService as never,
-    jwtService as never,
+    usersRepository as never,
     emailService as never,
     emailTemplateService as never,
   );
 
-  return { service, usersService, emailService, emailTemplateService };
+  return { service, usersRepository, emailService, emailTemplateService };
 }
 
 describe('AuthService.register', () => {
   it('rejects reserved usernames without querying the database', async () => {
-    const { service, usersService } = createService();
+    const { service, usersRepository } = createService();
 
     await expect(
       service.register({ ...registration, username: 'AdMiN' }),
     ).rejects.toThrow(new ConflictException('Username is reserved.'));
 
-    expect(usersService.findOne).not.toHaveBeenCalled();
-    expect(usersService.createUser).not.toHaveBeenCalled();
+    expect(usersRepository.findOne).not.toHaveBeenCalled();
+    expect(usersRepository.createUser).not.toHaveBeenCalled();
   });
 
   it('rejects an email that is already registered', async () => {
-    const { service, usersService } = createService();
-    usersService.findOne.mockResolvedValueOnce(savedUser as never);
+    const { service, usersRepository } = createService();
+    usersRepository.findOne.mockResolvedValueOnce(savedUser as never);
 
     await expect(service.register(registration)).rejects.toThrow(
       new ConflictException('Email already registered.'),
     );
 
-    expect(usersService.findOne).toHaveBeenCalledWith({
+    expect(usersRepository.findOne).toHaveBeenCalledWith({
       email: 'jane.doe@example.com',
     });
-    expect(usersService.createUser).not.toHaveBeenCalled();
+    expect(usersRepository.createUser).not.toHaveBeenCalled();
   });
 
   it('rejects a username that is already taken', async () => {
-    const { service, usersService } = createService();
-    usersService.findOne
+    const { service, usersRepository } = createService();
+    usersRepository.findOne
       .mockResolvedValueOnce(null)
       .mockResolvedValueOnce(savedUser as never);
 
@@ -77,39 +75,38 @@ describe('AuthService.register', () => {
       new ConflictException('Username already taken.'),
     );
 
-    expect(usersService.findOne).toHaveBeenNthCalledWith(1, {
+    expect(usersRepository.findOne).toHaveBeenNthCalledWith(1, {
       email: 'jane.doe@example.com',
     });
-    expect(usersService.findOne).toHaveBeenNthCalledWith(2, {
+    expect(usersRepository.findOne).toHaveBeenNthCalledWith(2, {
       username: 'jane-doe',
     });
-    expect(usersService.createUser).not.toHaveBeenCalled();
+    expect(usersRepository.createUser).not.toHaveBeenCalled();
   });
 
   it('creates a normalized user, emails them, and never returns the password hash', async () => {
-    const { service, usersService, emailService, emailTemplateService } =
+    const { service, usersRepository, emailService, emailTemplateService } =
       createService();
 
     const result = await service.register(registration);
 
-    expect(usersService.createUser).toHaveBeenCalledTimes(1);
-    // @ts-expect-error (test cases are not properly types, so we are not checking the type here)
-    const [createInput] = usersService.createUser.mock.calls[0];
-    console.log(createInput);
+    expect(usersRepository.createUser).toHaveBeenCalledTimes(1);
+    // @ts-expect-error (test cases are not properly typed, so we are not checking type here)
+    const [createInput] = usersRepository.createUser.mock.calls[0];
     expect(createInput).toMatchObject({
       email: 'jane.doe@example.com',
       username: 'jane-doe',
     });
     expect(
-      // @ts-expect-error (test cases are not properly types, so we are not checking the type here)
+      // @ts-expect-error (test cases are not properly typed, so we are not checking the type here)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       await bcrypt.compare(registration.password, createInput?.passwordHash),
     ).toBe(true);
     expect(emailTemplateService.renderConfirmationEmail).toHaveBeenCalledWith({
       userName: registration.username,
-      confirmationLink: 'TODO',
+      confirmationLink: expect.stringMatching(/^https?:\/\/[^\s]+$/) as string,
       expiryHours: 24,
-      companyAddress: 'TODO',
+      currentYear: new Date().getFullYear(),
     });
     expect(emailService.sendEmail).toHaveBeenCalledWith({
       to: registration.email,

@@ -67,21 +67,19 @@ export class AuthService {
     const expiryHours = 24;
 
     const user = await this.usersRepository.createUser({
-      userData: {
-        email: email.toLowerCase(),
-        username: username.toLowerCase(),
-        passwordHash,
-      },
-      verificationData: {
-        tokenHash,
-        expiresAt: new Date(Date.now() + expiryHours * 60 * 60 * 1000),
-      },
+      email: email.toLowerCase(),
+      username: username.toLowerCase(),
+      passwordHash,
+      //
+      tokenHash,
+      expiresAt: new Date(Date.now() + expiryHours * 60 * 60 * 1000),
     });
 
     const htmlTemplate =
       await this.emailTemplateService.renderConfirmationEmail({
         userName: username,
-        confirmationLink: clientUrl + '/verify-email/' + verificationToken,
+        confirmationLink:
+          clientUrl + '/verify-email?token=' + verificationToken,
         expiryHours,
         currentYear: new Date().getFullYear(),
       });

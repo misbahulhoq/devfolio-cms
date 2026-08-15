@@ -14,18 +14,20 @@ export class UsersRepository {
     });
   }
 
-  async createUser(data: {
-    userData: Prisma.UserCreateInput;
-    verificationData: Prisma.VerificationTokenCreateWithoutUserInput;
-  }): Promise<User> {
-    const { userData, verificationData } = data;
+  async createUser(
+    data: Prisma.UserCreateInput &
+      Prisma.VerificationTokenCreateWithoutUserInput,
+  ): Promise<User> {
     return await this.prisma.user.create({
       data: {
-        email: userData.email,
-        username: userData.username,
-        passwordHash: userData.passwordHash,
+        email: data.email,
+        username: data.username,
+        passwordHash: data.passwordHash,
         verificationTokens: {
-          create: verificationData,
+          create: {
+            expiresAt: data.expiresAt,
+            tokenHash: data.tokenHash,
+          },
         },
       },
     });
