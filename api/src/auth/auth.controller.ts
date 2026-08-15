@@ -14,4 +14,6 @@ export class AuthController {
       data: user,
     };
   }
+  @Post('verify-email')
+  async verifyEmail() {}
 }

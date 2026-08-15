@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { UsersService } from '../users/users.service';
+import { UsersRepository } from '../users/users.repository';
 import { RegisterDto } from './dto/register.dto';
 import { JwtService } from '@nestjs/jwt';
 import { EmailService } from '../email/email.service';
@@ -31,7 +31,7 @@ const RESERVED_USERNAMES = [
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
+    private usersService: UsersRepository,
     private jwtService: JwtService,
     private emailService: EmailService,
     private emailTemplateService: EmailTemplateService,

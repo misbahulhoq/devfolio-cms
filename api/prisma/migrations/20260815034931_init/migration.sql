@@ -5,6 +5,9 @@ CREATE TYPE "ProjectStatus" AS ENUM ('draft', 'published', 'archived');
 CREATE TYPE "ProjectType" AS ENUM ('web', 'mobile', 'api', 'library', 'other');
 
 -- CreateEnum
+CREATE TYPE "CaseStudyStatus" AS ENUM ('draft', 'published', 'archived');
+
+-- CreateEnum
 CREATE TYPE "TechCategory" AS ENUM ('frontend', 'backend', 'database', 'devops', 'language', 'other');
 
 -- CreateEnum
@@ -22,6 +25,7 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "password_hash" TEXT NOT NULL,
     "username" TEXT NOT NULL,
+    "isEmailVerified" BOOLEAN NOT NULL DEFAULT false,
     "full_name" TEXT,
     "avatar_url" TEXT,
     "bio" TEXT,
@@ -30,6 +34,17 @@ CREATE TABLE "users" (
     "deleted_at" TIMESTAMP(3),
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "verification_tokens" (
+    "id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "token_hash" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "expires_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "verification_tokens_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -77,6 +92,31 @@ CREATE TABLE "projects" (
     "deleted_at" TIMESTAMP(3),
 
     CONSTRAINT "projects_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "case_studies" (
+    "id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "project_id" TEXT,
+    "title" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "excerpt" TEXT,
+    "cover_image_url" TEXT,
+    "cover_image_key" TEXT,
+    "overview" TEXT,
+    "problem" TEXT,
+    "approach" TEXT,
+    "solution" TEXT,
+    "results" TEXT,
+    "status" "CaseStudyStatus" NOT NULL DEFAULT 'draft',
+    "is_featured" BOOLEAN NOT NULL DEFAULT false,
+    "display_order" INTEGER NOT NULL DEFAULT 0,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+    "deleted_at" TIMESTAMP(3),
+
+    CONSTRAINT "case_studies_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -133,6 +173,7 @@ CREATE TABLE "project_images" (
     "id" TEXT NOT NULL,
     "project_id" TEXT NOT NULL,
     "url" TEXT NOT NULL,
+    "key" TEXT NOT NULL,
     "alt_text" TEXT,
     "is_cover" BOOLEAN NOT NULL DEFAULT false,
     "display_order" INTEGER NOT NULL DEFAULT 0,
@@ -159,6 +200,9 @@ CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "verification_tokens_token_hash_key" ON "verification_tokens"("token_hash");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "refresh_tokens_token_hash_key" ON "refresh_tokens"("token_hash");
 
 -- CreateIndex
@@ -171,10 +215,22 @@ CREATE INDEX "projects_user_id_status_deleted_at_idx" ON "projects"("user_id", "
 CREATE UNIQUE INDEX "projects_user_id_slug_key" ON "projects"("user_id", "slug");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "case_studies_project_id_key" ON "case_studies"("project_id");
+
+-- CreateIndex
+CREATE INDEX "case_studies_user_id_status_deleted_at_idx" ON "case_studies"("user_id", "status", "deleted_at");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "case_studies_user_id_slug_key" ON "case_studies"("user_id", "slug");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "tech_stack_name_key" ON "tech_stack"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "user_skills_user_id_tech_stack_id_key" ON "user_skills"("user_id", "tech_stack_id");
+
+-- AddForeignKey
+ALTER TABLE "verification_tokens" ADD CONSTRAINT "verification_tokens_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "refresh_tokens" ADD CONSTRAINT "refresh_tokens_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -184,6 +240,12 @@ ALTER TABLE "password_resets" ADD CONSTRAINT "password_resets_user_id_fkey" FORE
 
 -- AddForeignKey
 ALTER TABLE "projects" ADD CONSTRAINT "projects_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "case_studies" ADD CONSTRAINT "case_studies_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "case_studies" ADD CONSTRAINT "case_studies_project_id_fkey" FOREIGN KEY ("project_id") REFERENCES "projects"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "project_tech_stack" ADD CONSTRAINT "project_tech_stack_project_id_fkey" FOREIGN KEY ("project_id") REFERENCES "projects"("id") ON DELETE CASCADE ON UPDATE CASCADE;
