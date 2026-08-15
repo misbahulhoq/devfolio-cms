@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
+import { EmailVerifyDto } from './dto/email-verify.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -15,5 +16,7 @@ export class AuthController {
     };
   }
   @Post('verify-email')
-  async verifyEmail() {}
+  async verifyEmail(@Body() emailVerifyDto: EmailVerifyDto) {
+    // await this.authService.
+  }
 }

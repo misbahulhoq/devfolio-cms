@@ -16,8 +16,8 @@
     }
   },
   "scripts": {
-    "dev": "tsdown --watch ./src/**/*.ts",
-    "build": "tsdown ./src/**/*.ts"
+    "dev": "tsdown --watch src/index.ts",
+    "build": "tsdown"
   },
   "dependencies": {
     "zod": "^4.4.3"

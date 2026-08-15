@@ -6,6 +6,7 @@ import { EmailService } from '../email/email.service';
 import { EmailTemplateService } from '../email/email-template.service';
 import crypto from 'crypto';
 import { clientUrl } from '../lib/client-info';
+import { EmailVerifyDto } from './dto/email-verify.dto';
 
 // As per requirements doc section 12.3
 const RESERVED_USERNAMES = [
@@ -93,5 +94,9 @@ export class AuthService {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { passwordHash: _, ...result } = user;
     return result;
+  }
+
+  async verifyEmail(emailVerifyDto: EmailVerifyDto) {
+    const { token } = emailVerifyDto;
   }
 }
