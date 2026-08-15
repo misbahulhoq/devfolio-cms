@@ -14,9 +14,31 @@ export class UsersRepository {
     });
   }
 
-  async createUser(data: Prisma.UserCreateInput): Promise<User> {
-    return this.prisma.user.create({
+  async createUser(data: {
+    userData: Prisma.UserCreateInput;
+    verificationData: Prisma.VerificationTokenCreateWithoutUserInput;
+  }): Promise<User> {
+    const { userData, verificationData } = data;
+    return await this.prisma.user.create({
+      data: {
+        email: userData.email,
+        username: userData.username,
+        passwordHash: userData.passwordHash,
+        verificationTokens: {
+          create: verificationData,
+        },
+      },
+    });
+  }
+
+  async updateUser(params: {
+    where: Prisma.UserWhereUniqueInput;
+    data: Prisma.UserUpdateInput;
+  }): Promise<User> {
+    const { where, data } = params;
+    return this.prisma.user.update({
       data,
+      where,
     });
   }
 }

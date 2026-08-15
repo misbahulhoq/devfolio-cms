@@ -6,7 +6,7 @@ export interface ConfirmationEmailData {
   userName: string;
   confirmationLink: string;
   expiryHours: number | string;
-  companyAddress: string;
+  companyAddress?: string;
   currentYear?: number | string;
 }
 
