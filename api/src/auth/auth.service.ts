@@ -96,7 +96,7 @@ export class AuthService {
     return result;
   }
 
-  async verifyEmail(emailVerifyDto: EmailVerifyDto) {
-    const { token } = emailVerifyDto;
-  }
+  // async verifyEmail(emailVerifyDto: EmailVerifyDto) {
+  //   const { token } = emailVerifyDto;
+  // }
 }
