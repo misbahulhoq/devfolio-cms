@@ -11,3 +11,6 @@ node_modules
 .vercel/*
 
 !.vercel/*.json
+
+api/.vercel/project.json
+api/vercel.json
