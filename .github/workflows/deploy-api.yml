@@ -54,4 +54,4 @@ jobs:
         run: bun install -g vercel
 
       - name: Deploy to Vercel
-        run: echo "" | vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: echo "" | vercel deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
