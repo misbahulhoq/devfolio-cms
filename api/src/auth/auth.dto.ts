@@ -6,7 +6,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-
+import { type EmailVerifyDto as IEmailVerifyDto } from '@devfolio-cms/dto';
 import {
   USERNAME_PATTERN,
   PASSWORD_PATTERN,
@@ -40,4 +40,14 @@ export class RegisterDto implements IRegisterDto {
       'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.',
   })
   password: string;
+}
+
+export class EmailVerifyDto implements IEmailVerifyDto {
+  @IsString()
+  token: string;
+}
+
+export class ResendVerificationEmailDto {
+  @IsEmail()
+  email: string;
 }

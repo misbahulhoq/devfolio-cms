@@ -53,7 +53,7 @@ const VerifyEmail = () => {
 
         <div className="flex justify-center mt-4">
           <Button asChild className="mx-auto">
-            <Link to="/request-verification-link" className="">
+            <Link to="/resend-verification-link" className="">
               Request a new link
             </Link>
           </Button>
