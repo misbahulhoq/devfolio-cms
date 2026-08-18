@@ -19,7 +19,13 @@ export class VerificationRepository {
       where: {
         tokenHash,
       },
-      include: { user: true },
+      include: {
+        user: {
+          omit: {
+            passwordHash: true,
+          },
+        },
+      },
     });
   }
 
@@ -27,6 +33,28 @@ export class VerificationRepository {
     return await this.prisma.verificationToken.delete({
       where: {
         tokenHash,
+        OR: [
+          {
+            expiresAt: {
+              lt: new Date(),
+            },
+          },
+          {
+            user: {
+              isEmailVerified: true,
+            },
+          },
+        ],
+      },
+    });
+  }
+
+  async deleteMany() {
+    return await this.prisma.verificationToken.deleteMany({
+      where: {
+        expiresAt: {
+          lt: new Date(),
+        },
       },
     });
   }

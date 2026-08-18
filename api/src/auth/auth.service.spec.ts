@@ -23,6 +23,7 @@ function createService() {
     findOne: jest.fn(async () => null),
     createUser: jest.fn(async () => savedUser),
   };
+  const verificationRepository = {};
   const emailService = {
     sendEmail: jest.fn(async () => undefined),
   };
@@ -32,6 +33,7 @@ function createService() {
 
   const service = new AuthService(
     usersRepository as never,
+    verificationRepository as never,
     emailService as never,
     emailTemplateService as never,
   );

@@ -120,8 +120,9 @@ export class AuthService {
     }
 
     const { userId, user } = data;
+
     if (user.isEmailVerified) {
-      throw new BadRequestException('Email already verified.');
+      throw new ConflictException('Email already verified.');
     }
 
     await this.usersRepository.updateUser({
@@ -132,6 +133,11 @@ export class AuthService {
         isEmailVerified: true,
       },
     });
+
+    await this.verificationRepository.delete(tokenHash);
+    return {
+      message: 'Email verified successfully.',
+    };
   }
 
   async resendVerificationEmail(emailDto: ResendVerificationEmailDto) {

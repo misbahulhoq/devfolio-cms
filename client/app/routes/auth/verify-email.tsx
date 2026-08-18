@@ -6,6 +6,10 @@ import { useSearchParams } from "react-router";
 import { Button } from "@/components/ui/button";
 
 const VerifyEmail = () => {
+  const [apiError, setApiError] = useState<{
+    data: object;
+    status: number;
+  } | null>(null);
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const {
@@ -17,8 +21,11 @@ const VerifyEmail = () => {
     mutationFn: async () => {
       await apiClient.post("/auth/verify-email", { token });
     },
-    onSuccess: () => {
-      redirect("/login");
+    onSuccess: async () => {
+      throw redirect("/login");
+    },
+    onError: (error) => {
+      setApiError(error.response);
     },
   });
 
@@ -26,6 +33,7 @@ const VerifyEmail = () => {
     verifyEmail();
   }, []);
 
+  console.log(apiError);
   if (isPending) {
     return (
       <div className="h-screen py-5 px-8">
@@ -48,14 +56,18 @@ const VerifyEmail = () => {
     return (
       <div className="h-screen py-10 px-8">
         <p className="text-destructive font-bold text-center">
-          Email verification failed
+          {apiError?.data?.message}
         </p>
 
         <div className="flex justify-center mt-4">
           <Button asChild className="mx-auto">
-            <Link to="/resend-verification-link" className="">
-              Request a new link
-            </Link>
+            {apiError?.status === 409 ? (
+              <Link to="/signin">Login</Link>
+            ) : (
+              <Link to="/resend-verification-link" className="">
+                Request a new link
+              </Link>
+            )}
           </Button>
         </div>
       </div>
