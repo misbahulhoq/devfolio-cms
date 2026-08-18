@@ -8,10 +8,14 @@ import {
 export default [
   index("routes/home.tsx"),
   // auth
-  route("signup", "routes/signup.tsx"),
-  route("signin", "routes/signin.tsx"),
-  route("forgot-password", "routes/forgot-password.tsx"),
-  route("verify-email", "routes/verify-email.tsx"),
+  route("signup", "routes/auth/signup.tsx"),
+  route("signin", "routes/auth/signin.tsx"),
+  route("forgot-password", "routes/auth/forgot-password.tsx"),
+  route("verify-email", "routes/auth/verify-email.tsx"),
+  route(
+    "request-verification-link",
+    "routes/auth/request-verification-link.tsx",
+  ),
 
   route("privacy", "routes/privacy.tsx"),
   route("terms-of-service", "routes/terms.tsx"),

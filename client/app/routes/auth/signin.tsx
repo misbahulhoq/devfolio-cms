@@ -1,5 +1,5 @@
 import LoginForm from "@/components/auth/login-form";
-import type { Route } from "./+types/home";
+import type { Route } from "../+types/home";
 import { makeTitle } from "@/lib/meta";
 
 export function meta({}: Route.MetaArgs) {

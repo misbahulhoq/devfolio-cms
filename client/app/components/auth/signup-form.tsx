@@ -48,7 +48,6 @@ export default function RegistrationForm() {
   });
   const { errors } = form.formState;
 
-  console.log(errors);
   // 3. Handle submission
   async function onSubmit(data: RegisterDto) {
     setApiError(null);
