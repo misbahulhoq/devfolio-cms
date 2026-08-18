@@ -1,4 +1,9 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UsersRepository } from '../users/users.repository';
 import { RegisterDto } from './dto/register.dto';
@@ -7,6 +12,7 @@ import { EmailTemplateService } from '../email/email-template.service';
 import crypto from 'crypto';
 import { clientUrl } from '../lib/client-info';
 import { EmailVerifyDto } from './dto/email-verify.dto';
+import { VerificationRepository } from '../verification/verification.repository';
 
 // As per requirements doc section 12.3
 const RESERVED_USERNAMES = [
@@ -30,10 +36,15 @@ const RESERVED_USERNAMES = [
   'status',
 ];
 
+function encryptToken(token: string) {
+  return crypto.createHash('sha256').update(token).digest('hex');
+}
+
 @Injectable()
 export class AuthService {
   constructor(
     private usersRepository: UsersRepository,
+    private verificationRepository: VerificationRepository,
     private emailService: EmailService,
     private emailTemplateService: EmailTemplateService,
   ) {}
@@ -61,10 +72,7 @@ export class AuthService {
 
     const passwordHash = await bcrypt.hash(password, 12);
     const verificationToken = crypto.randomBytes(32).toString('hex');
-    const tokenHash = crypto
-      .createHash('sha256')
-      .update(verificationToken)
-      .digest('hex');
+    const tokenHash = encryptToken(verificationToken);
     const expiryHours = 24;
 
     const user = await this.usersRepository.createUser({
@@ -96,7 +104,32 @@ export class AuthService {
     return result;
   }
 
-  // async verifyEmail(emailVerifyDto: EmailVerifyDto) {
-  //   const { token } = emailVerifyDto;
-  // }
+  async verifyEmail(emailVerifyDto: EmailVerifyDto) {
+    const { token } = emailVerifyDto;
+    const tokenHash = encryptToken(token);
+    const data = await this.verificationRepository.findOne(tokenHash);
+
+    if (!data) {
+      throw new UnauthorizedException('Invalid or expired token.');
+    }
+    if (data.expiresAt < new Date()) {
+      throw new UnauthorizedException('Invalid or expired token.');
+    }
+
+    const { userId, user } = data;
+    if (user.isEmailVerified) {
+      throw new BadRequestException('Email already verified.');
+    }
+
+    await this.usersRepository.updateUser({
+      where: {
+        id: userId,
+      },
+      data: {
+        isEmailVerified: true,
+      },
+    });
+
+    return;
+  }
 }

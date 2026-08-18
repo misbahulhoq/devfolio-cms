@@ -1,4 +1,4 @@
-import PrivacyPolicyPage from "@/pages/privacy";
+import PrivacyPolicyPage from "@/components/pages/privacy";
 
 import type { Route } from "./+types/home";
 import { makeTitle } from "@/lib/meta";

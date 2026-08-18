@@ -1,5 +1,5 @@
 import { makeTitle } from "@/lib/meta";
-import TermsOfServicePage from "@/pages/terms";
+import TermsOfServicePage from "@/components/pages/terms";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
