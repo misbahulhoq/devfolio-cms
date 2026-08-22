@@ -4,7 +4,6 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import express from 'express';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './src/app.module';
-import { clientUrl } from './src/lib/client-info';
 
 const server = express();
 let ready: Promise<void> | null = null;
@@ -21,7 +20,7 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: [clientUrl],
+    origin: ['https://devfolio-cms.antisolbd.com'],
     credentials: true,
   });
 
