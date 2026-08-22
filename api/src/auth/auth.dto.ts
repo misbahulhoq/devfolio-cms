@@ -51,3 +51,10 @@ export class ResendVerificationEmailDto {
   @IsEmail()
   email: string;
 }
+
+export class ForgotPasswordDto {
+  @IsString()
+  @IsNotEmpty({ message: 'Email is required.' })
+  @IsEmail()
+  email: string;
+}

@@ -6,7 +6,11 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { UsersRepository } from '../users/users.repository';
-import { RegisterDto, ResendVerificationEmailDto } from './auth.dto';
+import {
+  ForgotPasswordDto,
+  RegisterDto,
+  ResendVerificationEmailDto,
+} from './auth.dto';
 import { EmailService } from '../email/email.service';
 import { EmailTemplateService } from '../email/email-template.service';
 import crypto from 'crypto';
@@ -149,7 +153,7 @@ export class AuthService {
       throw new BadRequestException('User not found.');
     }
     if (user.isEmailVerified) {
-      throw new BadRequestException('Email already verified.');
+      throw new ConflictException('Email already verified.');
     }
 
     const verificationToken = generateVerificationToken();
@@ -157,6 +161,7 @@ export class AuthService {
     const expiryHours = 24;
 
     await this.verificationRepository.create({
+      tokenType: 'email_confirmation',
       tokenHash,
       expiresAt: new Date(Date.now() + expiryHours * 60 * 60 * 1000),
       user: {
@@ -177,7 +182,47 @@ export class AuthService {
 
     await this.emailService.sendEmail({
       to: email,
-      subject: 'Welcome to DevFolio CMS',
+      subject: '(Re) Welcome to DevFolio CMS',
+      html: htmlTemplate,
+    });
+  }
+
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
+    const { email } = forgotPasswordDto;
+    const user = await this.usersRepository.findOne({
+      email: email.toLowerCase(),
+    });
+    if (!user) {
+      throw new BadRequestException('User not found.');
+    }
+
+    const verificationToken = generateVerificationToken();
+    const tokenHash = encryptToken(verificationToken);
+    const expiryHours = 0.25; // 15 minutes
+
+    await this.verificationRepository.create({
+      tokenType: 'forgot_password',
+      tokenHash,
+      expiresAt: new Date(Date.now() + expiryHours * 60 * 60 * 1000),
+      user: {
+        connect: {
+          id: user.id,
+        },
+      },
+    });
+
+    const htmlTemplate =
+      await this.emailTemplateService.renderConfirmationEmail({
+        userName: user.username,
+        confirmationLink:
+          clientUrl + '/forgot-password?token=' + verificationToken,
+        expiryHours: expiryHours * 60, // 15 minutes
+        currentYear: new Date().getFullYear(),
+      });
+
+    await this.emailService.sendEmail({
+      to: email,
+      subject: 'Forgot Password - DevFolio CMS',
       html: htmlTemplate,
     });
   }

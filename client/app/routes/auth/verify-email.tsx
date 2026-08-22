@@ -22,7 +22,7 @@ const VerifyEmail = () => {
       await apiClient.post("/auth/verify-email", { token });
     },
     onSuccess: async () => {
-      throw redirect("/login");
+      redirect("/login");
     },
     onError: (error) => {
       setApiError(error.response);

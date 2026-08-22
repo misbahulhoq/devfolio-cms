@@ -16,7 +16,7 @@ export class UsersRepository {
 
   async createUser(
     data: Prisma.UserCreateInput &
-      Prisma.VerificationTokenCreateWithoutUserInput,
+      Omit<Prisma.VerificationTokenCreateWithoutUserInput, 'tokenType'>,
   ): Promise<User> {
     return await this.prisma.user.create({
       data: {
@@ -27,6 +27,7 @@ export class UsersRepository {
           create: {
             expiresAt: data.expiresAt,
             tokenHash: data.tokenHash,
+            tokenType: 'email_confirmation',
           },
         },
       },
