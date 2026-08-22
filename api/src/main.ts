@@ -21,7 +21,7 @@ async function bootstrap() {
   app.enableCors({
     origin:
       process.env.NODE_ENV === 'production'
-        ? 'https://devfolio-cms.antisolbd.com/'
+        ? 'https://devfolio-cms.antisolbd.com'
         : 'http://localhost:5173',
     credentials: true,
   });

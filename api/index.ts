@@ -20,7 +20,7 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: ['https://devfolio-cms.antisolbd.com/'],
+    origin: ['https://devfolio-cms.antisolbd.com'],
     credentials: true,
   });
 
